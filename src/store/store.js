@@ -1,11 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import lettersReduser from "./slices/lettersSlice";
-import settingsReducer from "./slices/settingsSlice";
+import lettersSlice from "./slices/lettersSlice";
+import settingsSlice from "./slices/settingsSlice";
 
 const store = configureStore({
   reducer: {
-    letters: lettersReduser,
-    settings: settingsReducer,
+    letters: lettersSlice,
+    settings: settingsSlice,
   },
 });
 

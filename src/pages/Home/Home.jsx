@@ -1,14 +1,22 @@
 import { useState } from "react";
 import { generateCoverLetter } from "../../services/api";
+import { useDispatch, useSelector } from "react-redux";
+import { addLetter } from "../../store/slices/lettersSlice";
 
 function Home() {
+  const { tone: defaultTone, language: defaultLanguage } = useSelector(
+    (state) => state.settings,
+  );
+
   const [position, setPosition] = useState("");
   const [company, setCompany] = useState("");
   const [skills, setSkills] = useState("");
-  const [tone, setTone] = useState("formal");
-  const [language, setLanguage] = useState("English");
+  const [tone, setTone] = useState(defaultTone);
+  const [language, setLanguage] = useState(defaultLanguage);
   const [result, setResult] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const dispatch = useDispatch();
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -24,6 +32,16 @@ function Home() {
       });
 
       setResult(text);
+      dispatch(
+        addLetter({
+          id: Date.now(),
+          position,
+          company,
+          content: text,
+          date: new Date().toLocaleDateString(),
+        }),
+      );
+
       setPosition("");
       setCompany("");
       setSkills("");
